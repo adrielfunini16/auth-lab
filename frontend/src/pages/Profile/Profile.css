@@ -1,0 +1,39 @@
+.profile-card {
+  max-width: 36rem;
+  margin: 2rem auto 0;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+}
+
+.profile-avatar {
+  display: grid;
+  place-items: center;
+  width: 5rem;
+  height: 5rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--background);
+  color: var(--accent);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.profile-details {
+  display: grid;
+  gap: 1.5rem;
+  margin: 0;
+}
+
+.profile-details dt {
+  margin-bottom: 0.4rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.profile-details dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
