@@ -3,6 +3,9 @@ node_modules/
 dist/
 dist-ssr/
 
+# Windows Powershell cache
+/backend/Microsoft/
+
 # Environment files
 .env
 .env.*
