@@ -1,9 +1,25 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
-export default function Register() {
+export default function Register({handleRegistration}) {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   function handleSubmit(event) {
     event.preventDefault();
-    // TODO: implementar cadastro durante os estudos.
+    handleRegistration(formData);
   }
 
   return (
@@ -14,23 +30,57 @@ export default function Register() {
         <form className="form" onSubmit={handleSubmit} noValidate>
           <div className="form-field">
             <label htmlFor="register-name">Name</label>
-            <input id="register-name" name="name" type="text" autoComplete="name" placeholder="Your name" />
+            <input
+              id="register-name"
+              name="name"
+              value={formData.name}
+              onChange={handleFormChange}
+              type="text"
+              autoComplete="name"
+              placeholder="Your name"
+            />
           </div>
           <div className="form-field">
             <label htmlFor="register-email">Email</label>
-            <input id="register-email" name="email" type="email" autoComplete="email" placeholder="you@example.com" />
+            <input
+              id="register-email"
+              name="email"
+              value={formData.email}
+              onChange={handleFormChange}
+              type="email"
+              autoComplete="email"
+              placeholder="you@example.com"
+            />
           </div>
           <div className="form-field">
             <label htmlFor="register-password">Password</label>
-            <input id="register-password" name="password" type="password" autoComplete="new-password" />
+            <input
+              id="register-password"
+              name="password"
+              value={formData.password}
+              onChange={handleFormChange}
+              type="password"
+              autoComplete="new-password"
+            />
           </div>
           <div className="form-field">
             <label htmlFor="register-confirm-password">Confirm password</label>
-            <input id="register-confirm-password" name="confirmPassword" type="password" autoComplete="new-password" />
+            <input
+              id="register-confirm-password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleFormChange}
+              type="password"
+              autoComplete="new-password"
+            />
           </div>
-          <button className="button button-primary" type="submit">Register</button>
+          <button className="button button-primary" type="submit">
+            Register
+          </button>
         </form>
-        <p className="auth-footer">Already have an account? <Link to="/login">Log in</Link></p>
+        <p className="auth-footer">
+          Already have an account? <Link to="/login">Log in</Link>
+        </p>
       </section>
     </main>
   );

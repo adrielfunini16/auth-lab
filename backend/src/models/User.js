@@ -9,9 +9,10 @@ const usersSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  age: {
-    type: Number,
-    required: false,
+  password: {
+    type: String,
+    minlength: 8,
+    required: true,
   },
 });
 
