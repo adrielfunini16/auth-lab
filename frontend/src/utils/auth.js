@@ -12,3 +12,16 @@ export const register = ({ name, email, password }) => {
     res.ok ? res.json() : Promise.reject(`Erro: ${res.status}`);
   });
 };
+
+export const login = ({ email, password }) => {
+  return fetch(`${BASE_URL}/signin`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  }).then((res) => {
+    res.ok ? res.json() : Promise.reject(`Erro: ${res.status}`);
+  });
+};

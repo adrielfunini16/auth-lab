@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const User = require("../models/User");
-const createUser = require("../controllers/controllers");
+const { createUser, login } = require("../controllers/users");
 
 router.get("/users", async (req, res) => {
   try {
@@ -15,6 +15,8 @@ router.get("/users", async (req, res) => {
 });
 
 router.post("/users", createUser);
+
+router.post("/signin", login);
 
 router.get("/users/:id", (req, res) => {
   User.findById(req.params.id)

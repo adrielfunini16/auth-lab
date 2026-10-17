@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Feed from "./pages/Feed/Feed.jsx";
 import Login from "./pages/Login/Login.jsx";
@@ -9,6 +9,7 @@ import * as auth from "./utils/auth.js";
 
 export default function App() {
   const [isLoaggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   const handleRegistration = ({ name, email, password, confirmPassword }) => {
     if (password === confirmPassword) {
@@ -16,9 +17,21 @@ export default function App() {
         .register({ name, email, password })
         .then((userData) => {
           console.log(userData);
+          navigate("/login");
         })
         .catch(console.error);
     }
+  };
+
+  const handleLogin = (email, password) => {
+    auth
+      .login(email, password)
+      .then((token) => {
+        const jwt = token;
+        setIsLoggedIn(true);
+        navigate("/feed");
+      })
+      .catch(console.error);
   };
 
   return (
@@ -27,7 +40,7 @@ export default function App() {
         path="/register"
         element={<Register handleRegistration={handleRegistration} />}
       />
-      <Route path="/login" element={<Login />} />
+      <Route path="/login" element={<Login handleLogin={handleLogin} />} />
       <Route
         path="/feed"
         element={
