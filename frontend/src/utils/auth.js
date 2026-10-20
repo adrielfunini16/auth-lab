@@ -22,6 +22,18 @@ export const login = ({ email, password }) => {
     },
     body: JSON.stringify({ email, password }),
   }).then((res) => {
-    res.ok ? res.json() : Promise.reject(`Erro: ${res.status}`);
+    return res.ok ? res.json() : Promise.reject(`Erro: ${res.status}`);
+  });
+};
+
+export const checkToken = (token) => {
+  return fetch(`${BASE_URL}/users/me`, {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => {
+    return res.ok ? res.json() : Promise.reject(`Erro: ${res.status}`);
   });
 };

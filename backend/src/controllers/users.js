@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
+const { checkToken } = require("./auth");
 const { validateEmail, validatePassword } = require("../utils/validators");
 
 async function createUser(req, res) {
@@ -23,20 +24,20 @@ async function createUser(req, res) {
   }
 }
 
-function login(req, res) {
-  const { email, password } = req.body;
+async function getCurrentUser(req, res, next) {
+  try {
+    const { _id } = req.user;
 
-  if (validateEmail(email) && validatePassword(password)) {
-    return User.findUserByCredentials(email, password)
-      .then((token) => {
-        res.send(token);
-      })
-      .catch((err) => {
-        res.status(401).send({ message: err.message });
-      });
+    const user = await User.findById(_id);
+
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  } catch (err) {
+    next(err);
   }
-
-  return res.status(400).send({ message: "Formato dos dados incorretos" });
 }
 
-module.exports = { createUser, login };
+module.exports = { createUser, getCurrentUser };

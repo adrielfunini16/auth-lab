@@ -1,22 +1,22 @@
 const router = require("express").Router();
 const User = require("../models/User");
-const { createUser, login } = require("../controllers/users");
+const { createUser, getCurrentUser } = require("../controllers/users");
+const { login, checkToken } = require("../controllers/auth");
+const { celebrate, Joi } = require("celebrate");
 
-router.get("/users", async (req, res) => {
-  try {
-    const users = await User.find();
-    res.send(users);
-  } catch (err) {
-    res.status(500).send({
-      message: "Erro ao buscar usuários",
-      error: err.message,
-    });
-  }
-});
+router.get("/users/me", checkToken, getCurrentUser);
 
 router.post("/users", createUser);
-
-router.post("/signin", login);
+router.post(
+  "/signin",
+  celebrate({
+    body: Joi.object({
+      email: Joi.string().email().required(),
+      password: Joi.string().required(),
+    }),
+  }),
+  login,
+);
 
 router.get("/users/:id", (req, res) => {
   User.findById(req.params.id)
